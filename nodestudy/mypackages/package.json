@@ -1,0 +1,19 @@
+{
+  "name": "mypackage"
+, "main": "./lib/index"
+, "version": "0.1.0"
+, "description": "This is my first package"
+, "tags": ["test", "sample"]
+, "author": "Satoshi Ohki <roothybrid7@gmail.com>"
+, "repository": {
+    "type": "git"
+  , "url": "http://github.com/roothybrid7/node-study"
+  }
+, "bugs": {
+    "url": "http://github.com/roothybrid7/node-study/issues"
+  }
+, "licenses": [{
+    "type": "MIT"
+  , "url": "http://github.com/roothybrid7/raw/master/LICENSE"
+  }]
+}
