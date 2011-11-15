@@ -1,8 +1,9 @@
 var http = require('http');
 
 var server = http.createServer(function(req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.write('Hello World\n');
-  res.end();
-  console.log(req.url + '"' + req.headers['user-agent'] + '"');
+  setTimeout(function() {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.write("I'm busy\n");
+    res.end();
+  }, 1000);
 }).listen(3000);
