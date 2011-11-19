@@ -3,12 +3,9 @@ var log = function() { console.log(arguments); }
 var socket = io.connect('http://localhost')
 
 socket.on('connect', function() {
-  socket.emit('set nickname', 'Jxck');
-  socket.on('ready', function(msg) {
-    socket.emit('get nickname');
-  });
-
-  socket.on('name', function(name) {
-    log('name is', name);
+  var data = {a: {b: {c: 'e'}}};
+  socket.json.emit('msg send', data);
+  socket.on('msg push', function(msg) {
+    console.log(msg.a.b.c);
   });
 });

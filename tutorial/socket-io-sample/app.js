@@ -41,15 +41,10 @@ var log = console.log;
 var io = require('socket.io').listen(app);
 
 io.sockets.on('connection', function(socket) {
-  socket.on('set nickname', function(name) {
-    socket.set('nickname', name, function() {
-      socket.emit('ready');
-    });
-  });
-
-  socket.on('get nickname', function() {
-    socket.get('nickname', function(err, name) {
-      socket.emit('name', name);
-    });
+  var data = {a: {b: {c: 'd'}}};
+  socket.json.emit('msg push', data);
+  socket.json.broadcast.emit('msg push', data);
+  socket.on('msg send', function(msg) {
+    console.log(msg.a.b.c);
   });
 });
