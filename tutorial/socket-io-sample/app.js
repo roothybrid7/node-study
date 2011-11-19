@@ -40,6 +40,26 @@ var log = console.log;
 
 var io = require('socket.io').listen(app);
 
+// Production for socket.io
+io.configure('production', function() {
+  io.enable('browser client minification');
+  io.enable('browser client etag');
+  io.set('log level', 1);
+  io.set('transports', [
+      'websocket'
+    , 'flashsocket'
+    , 'htmlfile'
+    , 'xhr-polling'
+    , 'jsonp-polling'
+  ]);
+});
+
+// Development
+io.configure('development', function() {
+  io.set('log level', 2);
+  io.set('transports', ['websocket']);
+});
+
 io.sockets.on('connection', function(socket) {
   var sid = socket.id;
   log(sid);
