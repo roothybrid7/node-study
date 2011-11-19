@@ -41,35 +41,15 @@ var log = console.log;
 var io = require('socket.io').listen(app);
 
 io.sockets.on('connection', function(socket) {
-  log('connected');
-  socket.on('msg send', function(msg, fn) {
-    fn(msg + ' was successfully sent');
-    socket.emit('msg push', msg, function(data) {
-      log(data);
-    });
-    socket.broadcast.emit('msg push', msg, function(data) {
-      log(data);
+  socket.on('set nickname', function(name) {
+    socket.set('nickname', name, function() {
+      socket.emit('ready');
     });
   });
-  socket.on('disconnect', function() {
-    log('disconnected');
+
+  socket.on('get nickname', function() {
+    socket.get('nickname', function(err, name) {
+      socket.emit('name', name);
+    });
   });
 });
-
-var chat = io
-  .of('/chat')
-  .on('connection', function(socket) {
-    log('chat connected');
-    socket.on('msg send', function(msg) {
-      chat.emit('msg push', msg + ' from chat');
-    });
-  });
-
-var news = io
-  .of('/news')
-  .on('connection', function(socket) {
-    log('news connected');
-    socket.on('msg send', function(msg) {
-      news.emit('msg push', msg + ' from news');
-    });
-  });
