@@ -41,8 +41,9 @@ var log = console.log;
 var io = require('socket.io').listen(app);
 
 io.sockets.on('connection', function(socket) {
+  var sid = socket.id;
+  log(sid);
   socket.on('message', function(msg) {
-    socket.send(msg);
-    socket.broadcast.send(msg);
+    io.sockets.socket(sid).send(msg);
   });
 });

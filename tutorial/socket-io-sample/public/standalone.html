@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Standalone.sample</title>
+  <script src="http://localhost:8080/socket.io/socket.io.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var socket = io.connect('http://localhost:8080/');
+    socket.on('msg push', function(data) {
+      console.log(data);
+      socket.emit('msg send', data);
+    });
+  </script>
+</head>
+<body>
+  <h1>Standalone sample</h1>
+  <p>Welcome to Standalone Sample</p>
+</body>
+</html>
