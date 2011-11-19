@@ -40,30 +40,31 @@ var log = console.log;
 
 var io = require('socket.io').listen(app);
 
-// Production for socket.io
-io.configure('production', function() {
-  io.enable('browser client minification');
-  io.enable('browser client etag');
-  io.set('log level', 1);
-  io.set('transports', [
-      'websocket'
-    , 'flashsocket'
-    , 'htmlfile'
-    , 'xhr-polling'
-    , 'jsonp-polling'
-  ]);
-});
+function find_by_cookie(cookie, callback) {
+  var user = {
+    name: 'Jxck',
+    cookie: cookie
+  }
+  if (cookie) return callback(null, user);
+}
 
-// Development
-io.configure('development', function() {
-  io.set('log level', 2);
-  io.set('transports', ['websocket']);
+io.configure(function() {
+  io.set('authorization', function(handshakeData, callback) {
+    var cookie = handshakeData.headers.cookie;
+    find_by_cookie(cookie, function(err, user) {
+      if (err) return callback(err);
+      if (!user) return callback(null, false);
+
+      handshakeData.user = user;
+      callback(null, true);
+    });
+  });
 });
 
 io.sockets.on('connection', function(socket) {
-  var sid = socket.id;
-  log(sid);
+  log('connected');
   socket.on('message', function(msg) {
-    io.sockets.socket(sid).send(msg);
+    socket.send(socket.handshake.user.name);
+    socket.broadcast.send(msg);
   });
 });
