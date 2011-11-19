@@ -41,8 +41,8 @@ var log = console.log;
 var io = require('socket.io').listen(app);
 
 io.sockets.on('connection', function(socket) {
-  io.on('msg send', function(msg) {
-    log(msg);
+  socket.on('message', function(msg) {
+    socket.send(msg);
+    socket.broadcast.send(msg);
   });
-  io.sockets.emit('msg push', 'data');
 });
